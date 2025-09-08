@@ -1,17 +1,50 @@
 // src/App.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import Inventory from "./Inventory";
 import Error from "./Error";
+import { useNavigate } from "react-router-dom";
 
 export default function App() {
     const [isLogin, setIsLogin] = useState(true);
 
     const toggleForm = () => setIsLogin(!isLogin);
+    const navigte = useNavigate();
+
+    const [loginData, setLoginData] = useState({
+        fullname: '',
+        username: '',
+        password: '',
+        confirmPassword: ''
+    });
+
+    const [response, setResponse] = useState(false);
+
+    
 
     const loginRegister = (e) => {
-        
+        if (isLogin) {
+            if ((loginData.username == "yole143") && (loginData.password == "stemloy143")) {
+                navigte('/secret')
+            }
+            else{
+            setResponse(true);
+        }
+        } 
+
+        else{
+            setResponse(true);
+        }
+
     }
+
+    useEffect(() => {
+        if (response) {
+            setTimeout(() => {
+                setResponse(false);
+            }, 1000000);
+        }
+    }, [loginRegister]);
 
     return (
         <>
@@ -23,6 +56,7 @@ export default function App() {
 
                 <div className="mt-10 border p-4 rounded-lg shadow-sm bg-white">
                     <form onSubmit={loginRegister}>
+                        {response && (<p style={{textAlign: 'center', color: 'red', margin: '-7px'}}>invalid username or password!</p>)}
 
                         {!isLogin && (
                             <div className="mb-4">
@@ -32,6 +66,8 @@ export default function App() {
                                         <div className="flex items-center gap-2">
                                             <span style={{ marginTop: '5px' }}></span>
                                             <input
+                                                value={loginData.fullname}
+                                                onChange={(e) => setLoginData((prev) => ({ ...prev, fullname: e.target.value }))}
                                                 type="text"
                                                 placeholder="Fullname"
                                                 className="border p-2 rounded w-full sm:w-64"
@@ -44,14 +80,16 @@ export default function App() {
 
 
                         <div className="mb-4">
-                            <h3 className="font-semibold mb-2">Email</h3>
+                            <h3 className="font-semibold mb-2">Username</h3>
                             <div className="mb-4">
                                 <div className="flex flex-col gap-2">
                                     <div className="flex items-center gap-2">
                                         <span style={{ marginTop: '5px' }}></span>
                                         <input
+                                            value={loginData.username}
+                                            onChange={(e) => setLoginData((prev) => ({ ...prev, username: e.target.value }))}
                                             type="text"
-                                            placeholder="Email"
+                                            placeholder="Username"
                                             className="border p-2 rounded w-full sm:w-64"
                                         />
                                     </div>
@@ -66,6 +104,8 @@ export default function App() {
                                     <div className="flex items-center gap-2">
                                         <span style={{ marginTop: '5px' }}></span>
                                         <input
+                                            value={loginData.password}
+                                            onChange={(e) => setLoginData((prev) => ({ ...prev, password: e.target.value }))}
                                             type="password"
                                             placeholder="Password"
                                             className="border p-2 rounded w-full sm:w-64"
@@ -83,6 +123,8 @@ export default function App() {
                                         <div className="flex items-center gap-2">
                                             <span style={{ marginTop: '5px' }}></span>
                                             <input
+                                                value={loginData.confirmPassword}
+                                                onChange={(e) => setLoginData((prev) => ({ ...prev, confirmPassword: e.target.value }))}
                                                 type="password"
                                                 placeholder="Confirm Password"
                                                 className="border p-2 rounded w-full sm:w-64"

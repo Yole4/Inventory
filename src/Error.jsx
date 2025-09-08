@@ -6,7 +6,7 @@ export default function Error() {
     <div className="error-page">
       <h1>Sorry, this page has expired ❌</h1>
       <p>The page you’re trying to reach is unavailable or does not exist.</p>
-      <a href="/">Go back to Inventory</a>
+      <a href="/login">Go back to Login Page</a>
     </div>
   );
 }
