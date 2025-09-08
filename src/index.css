@@ -1,13 +1,224 @@
-body {
+/* index.css - styles for Fuel Sales Inventory (Tailwind-like utility classes re-implemented)
+   Save as src/index.css and import it in your app (e.g. import './index.css')
+*/
+
+/* ---------- Basic resets ---------- */
+* {
+  box-sizing: border-box;
+}
+html, body, #root {
+  height: 100%;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #1f2937; /* gray-800 */
+  background: #f8fafc; /* light background */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ---------- Spacing & utilities (used in JSX) ---------- */
+.p-4 { padding: 1rem; }
+.p-2 { padding: 0.5rem; }
+.p-6 { padding: 1.5rem; }
+
+.sm\:p-6 { padding: 1.5rem; } /* overridden at sm breakpoint below */
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mt-6 { margin-top: 1.5rem; }
+
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+
+.text-2xl { font-size: 1.5rem; line-height: 1.2; }
+.text-xl { font-size: 1.25rem; line-height: 1.2; }
+.text-lg { font-size: 1.125rem; }
+.text-center { text-align: center; }
+
+/* widths */
+.max-w-5xl { max-width: 64rem; } /* ~1024px */
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+/* borders / rounding / shadow */
+.border { border: 1px solid rgba(15, 23, 42, 0.08); }
+.rounded { border-radius: 0.25rem; }
+.rounded-lg { border-radius: 0.75rem; }
+.shadow-sm { box-shadow: 0 1px 3px rgba(15,23,42,0.06); }
+
+/* colors */
+.bg-gray-200 { background-color: #edf2f7; }
+.bg-gray-100 { background-color: #f7fafc; }
+.bg-green-100 { background-color: #ecfdf5; }
+
+.bg-blue-600 { background-color: #2563eb; }
+.text-white { color: #fff; }
+
+/* flex / grid */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.grid { display: grid; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.sm\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.gap-2 { gap: 0.5rem; }
+
+/* helpers */
+.w-full { width: 100%; }
+.sm\:w-48 { width: 12rem; }
+.w-auto { width: auto; }
+.overflow-x-auto { overflow-x: auto; }
+
+/* form elements */
+input[type="number"], input[type="text"], select, textarea {
+  border: 1px solid rgba(15,23,42,0.12);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: box-shadow 120ms ease, border-color 120ms ease;
+  background: #fff;
+}
+input[type="number"]:focus, input[type="text"]:focus, select:focus, textarea:focus {
+  border-color: rgba(37,99,235,0.9);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
+}
+
+/* button */
+button {
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: transform 90ms ease, box-shadow 90ms ease;
+}
+button:active { transform: translateY(1px); }
+.bg-blue-600 {
+  background: linear-gradient(180deg,#1e63e8,#2563eb);
+  box-shadow: 0 6px 18px rgba(37,99,235,0.14);
+}
+button.bg-blue-600:hover { filter: brightness(1.03); }
+
+/* table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95rem;
+  background: #fff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+table thead th {
+  text-align: center;
+  padding: 0.625rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(15,23,42,0.06);
+  background: #f1f5f9; /* softer gray */
+}
+table tbody td {
+  padding: 0.625rem;
+  border-bottom: 1px solid rgba(15,23,42,0.04);
+}
+table tbody tr:last-child td { border-bottom: none; }
+table .font-bold { font-weight: 700; }
+
+/* specific layout pieces */
+.header {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+/* card style for each fuel block */
+.fuel-card {
+  background: linear-gradient(180deg,#fff,#fcfdff);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgba(15,23,42,0.04);
+}
+
+/* labels */
+label { font-size: 0.9rem; color: #374151; }
+
+/* small text */
+.text-sm { font-size: 0.875rem; }
+
+/* pump label layout */
+.pump-label { font-weight: 600; margin-bottom: 0.35rem; }
+
+/* results card */
+.results-summary {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: linear-gradient(180deg,#ecfdf5,#ffffff);
+  border: 1px solid rgba(16,185,129,0.08);
+}
+
+/* utility responsive and grid overrides */
+.min-w-\[600px\] { min-width: 600px; } /* for table min width */
+
+/* ---------- Responsive (sm = 640px) ---------- */
+@media (min-width: 640px) {
+  .sm\:p-6 { padding: 1.5rem; }
+  .sm\:w-48 { width: 12rem; }
+  .sm\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ---------- Small screen polish ---------- */
+@media (max-width: 639px) {
+  .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .min-w-\[600px\] { min-width: 100%; } /* avoid overflow on tiny screens */
+}
+
+/* ---------- Accessibility touches ---------- */
+input[aria-invalid="true"] {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 4px rgba(220,38,38,0.06);
+}
+
+
+.error-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff5f6d, #ffc371);
+  text-align: center;
+  color: #fff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+.error-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.error-page p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  max-width: 500px;
+}
+
+.error-page a {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #fff;
+  color: #ff5f6d;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.error-page a:hover {
+  background-color: #ff5f6d;
+  color: #fff;
+  transform: scale(1.05);
 }
