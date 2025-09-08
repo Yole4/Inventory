@@ -400,7 +400,7 @@ export default function Inventory() {
           <p>Lube Sales : {lubes}</p>
           <p>Total: {result ? (parseFloat(result.grand.amount) + parseFloat(lubes)).toFixed(3) : "0"}</p>
           <p>Miscellaneous : ₱{miscTotals.grand.toFixed(3)}</p>
-          <p>Net Cash : ₱{result ? ((parseFloat(result.grand.amount.toFixed(3)) + parseFloat(lubes) ) - miscTotals.grand).toFixed(3) : "0"}</p>
+          <p>Net Cash : ₱{result ? ((parseFloat(result.grand.amount.toFixed(3)) + parseFloat(lubes)) - miscTotals.grand).toFixed(3) : "0"}</p>
           <div className="flex items-center gap-2 mt-2" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <label className="font-medium">Cash on Hand :</label>
             <input
@@ -419,12 +419,15 @@ export default function Inventory() {
               {cashOnHand
                 ? (
                   parseFloat(cashOnHand) -
-                  ((result?.grand?.amount || 0) - (miscTotals.grand || 0))
+                  ((result?.grand?.amount || 0) - (miscTotals.grand || 0)) +
+                  parseFloat(lubes || 0)
                 ).toFixed(3)
                 : (
-                  -((result?.grand?.amount || 0) - (miscTotals.grand || 0))
+                  -((result?.grand?.amount || 0) - (miscTotals.grand || 0)) +
+                  parseFloat(lubes || 0)
                 ).toFixed(3)
               }
+
             </p>
 
           </div>
