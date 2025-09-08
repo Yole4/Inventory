@@ -371,7 +371,7 @@ export default function Inventory() {
         ))}
 
         <div className="mt-10 border p-4 rounded-lg shadow-sm bg-white">
-          <h2 className="text-xl font-bold mb-4">Lubes</h2>
+          <h2 className="text-xl font-bold mb-4">Total Lubes Sales</h2>
           <div className="mb-4">
             {/* <h3 className="font-semibold mb-2">Lubes</h3> */}
             <div className="flex flex-col gap-2">
