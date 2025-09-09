@@ -3,9 +3,9 @@ import "./index.css";
 
 export default function Inventory() {
   const [prices, setPrices] = useState({
-    extreme95: 53.29,
-    extreme91: 52.29,
-    diesel: 52.29,
+    extreme95: 53.29 + 1,
+    extreme91: 52.29 + 1,
+    diesel: 52.29 + 1.40,
   });
 
   const [lubes, setLubes] = useState(0);
