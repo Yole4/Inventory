@@ -8,9 +8,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Error />} />
+        <Route path="/secret" element={<Error />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/secret" element={<Inventory />} />
+        <Route path="/" element={<Inventory />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>
